@@ -19,7 +19,7 @@ package k_k_.test.graphics.tie.tile
 import org.junit._
 
 import k_k_.graphics.tie._
-import k_k_.graphics.tie.ink.{Named_Colors => C, _}
+import k_k_.graphics.tie.ink.{NamedColors => C, _}
 import k_k_.graphics.tie.shapes._
 import k_k_.graphics.tie.shapes.text._
 
@@ -38,15 +38,15 @@ class Svg_Fonts_Test extends Svg_Test_Base {
   protected def create_canvas() = {
 
     def in_every_style(font: Font): Seq[Font] =
-      Seq(font.copy(style = Plain),
-          font.copy(style = Italic),
-          font.copy(style = Oblique))
+      Seq(font.copy(style = FontStyle.Plain),
+          font.copy(style = FontStyle.Italic),
+          font.copy(style = FontStyle.Oblique))
 
     def in_every_weight(font: Font): Seq[Font] =
-      Seq(Lightest, Light, Little_Light,
-          Normal,
-          Little_Bold, Nearly_Bold, Bold,
-          Bolder, Boldest).map( wt => font.copy(weight = wt) )
+      Seq(FontWeight.Lightest, FontWeight.Light, FontWeight.LittleLight,
+          FontWeight.Normal,
+          FontWeight.LittleBold, FontWeight.NearlyBold, FontWeight.Bold,
+          FontWeight.Bolder, FontWeight.Boldest).map( wt => font.copy(weight = wt) )
 
 
     val arial_fonts = Seq(Font("Arial", 10),
@@ -65,7 +65,7 @@ class Svg_Fonts_Test extends Svg_Test_Base {
                         map( render_fonts(_) ).
                         map( _.pad(5, 0) )
 
-    new Canvas(Canvas_Props(820, 450, title = title),
+    new Canvas(CanvasProps(820, 450, title = title),
                font_groups.take(2).chain(R_Mid).pad(0, 20).at(B_Mid).
                  combo(Top_Middle of font_groups(2).pad(0, 20))
                -@ (0, 0)
@@ -84,7 +84,7 @@ class Svg_Fonts_Test extends Svg_Test_Base {
   }
 
   protected def render_font(font: Font): Shape = {
-    Text_Line(name_font(font), font) -~ Default_Writing_Pen
+    TextLine(name_font(font), font) -~ DefaultWritingPen
   }
 
   protected def name_font(font: Font): String =

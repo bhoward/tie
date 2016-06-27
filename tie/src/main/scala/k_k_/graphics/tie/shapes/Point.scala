@@ -18,6 +18,7 @@ package k_k_.graphics.tie.shapes
 
 import k_k_.graphics.tie.transform.{Transformable, Placeable}
 
+import scala.language.implicitConversions
 
 object Point {
   implicit def fromDoubles(xAndY: (Double, Double)) = Point(xAndY._1, xAndY._2)

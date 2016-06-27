@@ -18,10 +18,12 @@ package k_k_.graphics.tie.tile
 
 package pos {
 
-import k_k_.graphics.tie.shapes.{Bounding_Boxed, Line, Point, Shape}
+import k_k_.graphics.tie.shapes.{BoundingBoxed, Line, Point, Shape}
 import k_k_.graphics.tie.shapes.path.Path
 
 import conversions._
+
+import scala.language.implicitConversions
 
 
 final class Positionable_Shape(self: Shape) {
@@ -54,7 +56,7 @@ final case class Shape_Pos(shape: Shape, pos: Bounding_Box_Pos) {
   def to(other: Shape_Pos): Shape =
     to(other.shape, other.pos)
 
-  def to(other_bboxed: Bounding_Boxed, where_on_other: Bounding_Box_Pos):
+  def to(other_bboxed: BoundingBoxed, where_on_other: Bounding_Box_Pos):
       Shape = {
     (pos, where_on_other) match {
       case (Center, pos) =>
@@ -90,7 +92,7 @@ final case class Shape_Pos(shape: Shape, pos: Bounding_Box_Pos) {
   def -@(other: Shape_Pos): Shape =
     to(other)
 
-  def -@(other_bboxed: Bounding_Boxed, where_on_other: Bounding_Box_Pos):
+  def -@(other_bboxed: BoundingBoxed, where_on_other: Bounding_Box_Pos):
       Shape =
     to(other_bboxed, where_on_other)
 

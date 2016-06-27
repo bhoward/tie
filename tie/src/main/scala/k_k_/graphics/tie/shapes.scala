@@ -29,6 +29,7 @@ import k_k_.graphics.tie.transform._
 
 import k_k_.algo.{Math => MoreMath}
 
+import scala.language.postfixOps
 
 //????redo Rectangular as a type class????
 

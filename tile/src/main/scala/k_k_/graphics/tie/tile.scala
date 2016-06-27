@@ -16,13 +16,15 @@
 
 package k_k_.graphics.tie
 
-import k_k_.graphics.tie.shapes.{Bounding_Boxed, Point, Shape}
+import k_k_.graphics.tie.shapes.{BoundingBoxed, Point, Shape}
+
+import scala.language.implicitConversions
 
 
 package object tile {
 
   // conversion for Shape, Dims
-  implicit def Bounding_Boxed_to_Bounding_Box_Points(bboxed: Bounding_Boxed) =
+  implicit def Bounding_Boxed_to_Bounding_Box_Points(bboxed: BoundingBoxed) =
     new Bounding_Box_Points(bboxed)
 
   // Bounding_Box_Pos aliases:
@@ -44,7 +46,7 @@ package object tile {
 package tile {
 
 
-final class Bounding_Box_Points(bboxed: Bounding_Boxed) {
+final class Bounding_Box_Points(bboxed: BoundingBoxed) {
 
   def center       : Point = center_pt
 
@@ -72,8 +74,8 @@ final class Bounding_Box_Points(bboxed: Bounding_Boxed) {
 
 
   private val (center_pt, width, height) = {
-    val bbox = Bounding_Boxed(bboxed)
-    (bbox.center_pt, bbox.width, bbox.height)
+    val bbox = BoundingBoxed(bboxed)
+    (bbox.centerPt, bbox.width, bbox.height)
   }
 }
 

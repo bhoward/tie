@@ -19,7 +19,7 @@ package k_k_.test.graphics.tie.tile
 import org.junit._
 
 import k_k_.graphics.tie._
-import k_k_.graphics.tie.ink.{Named_Colors => C, _}
+import k_k_.graphics.tie.ink.{NamedColors => C, _}
 import k_k_.graphics.tie.shapes._
 import k_k_.graphics.tie.shapes.text._
 
@@ -43,7 +43,7 @@ class Svg_Image_Transformations_Test extends Svg_Test_Base {
   val img_path = img_orig_dir_root + "/images/transform_test_img.jpg"
   val actual_img_dims = (375.0, 500.0)
 
-  val arrow = Iso_Triangle(35, 50) -% 90 -&
+  val arrow = IsoTriangle(35, 50) -% 90 -&
               (Line(30) -+ (-40, -8)) -&
               (Line(30) -+ (-40, 8)) -~ center_pen
 
@@ -72,7 +72,7 @@ class Svg_Image_Transformations_Test extends Svg_Test_Base {
                                    (Circle(5) -~ Pen.fill(C.Yellow) -+ (0, 30)),
                                 "rotate(45, 0, 30)"),
                                (img -# .5 -&
-                                 (_: Shape).skew_horiz(30),
+                                 (_: Shape).skewHoriz(30),
                                 "skew_horiz(30)"),
                                (img -# .5 -&
                                   (_: Shape).reflect(60),
@@ -82,14 +82,14 @@ class Svg_Image_Transformations_Test extends Svg_Test_Base {
                                    (Circle(5) -~ Pen.fill(C.Yellow) -+ (5, 20)),
                                 "reflect(60, 5, 20)"),
                                (img -# .5 -&
-                                 (_: Shape).skew_vert(30),
+                                 (_: Shape).skewVert(30),
                                 "skew_vert(30)") )
     val transformed_images =
-        transformations.map { p => (p._1(img), Text_Line(p._2, desc_font)) }.
+        transformations.map { p => (p._1(img), TextLine(p._2, desc_font)) }.
                         map { p => (box_image(p._1), Writing(p._2).pad(0, 4)) }.
                         map { p => (B_Mid of p._1).combo(p._2, Inside) }
 
-    new Canvas(Canvas_Props(620, 450, title = title),
+    new Canvas(CanvasProps(620, 450, title = title),
                (orig_img @- R_Mid).
                    combo(layout_grid(transformed_images, 3), Outside)
                -@ (0, 0)

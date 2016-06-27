@@ -28,6 +28,8 @@ import k_k_.graphics.tie.shapes._
 import k_k_.graphics.tie.shapes.path._
 import k_k_.graphics.tie.shapes.text._
 
+import scala.language.implicitConversions
+import scala.language.postfixOps
 
 class ScriptType(val mime: String)
 

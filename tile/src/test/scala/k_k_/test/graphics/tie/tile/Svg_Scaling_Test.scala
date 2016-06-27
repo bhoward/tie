@@ -20,7 +20,7 @@ import org.junit._
 import Assert._
 
 import k_k_.graphics.tie._
-import k_k_.graphics.tie.ink.{Named_Colors => C, _}
+import k_k_.graphics.tie.ink.{NamedColors => C, _}
 import k_k_.graphics.tie.shapes._
 import k_k_.graphics.tie.shapes.text._
 
@@ -37,18 +37,18 @@ class Svg_Scaling_Test extends Svg_Test_Base {
   val title = "Scaling to Bounding Box"
 
 
-  val arrow = Iso_Triangle(35, 50) -% 90 -&
+  val arrow = IsoTriangle(35, 50) -% 90 -&
               (Line(30) -+ (-40, -8)) -&
               (Line(30) -+ (-40, 8)) -~ center_pen
 
-  val bbox = Origin_Dims(100, 80)
+  val bbox = OriginDims(100, 80)
 
 
   protected def create_canvas() = {
-    new Canvas(new Canvas_Props(1280, 500, Origin_Top_Left, title),
+    new Canvas(new CanvasProps(1280, 500, OriginPos.TopLeft, title),
                (exhibit_scaling(Ellipse(35, 25), bbox)
                   -+ (80, 50)) -&
-               (exhibit_scaling(Right_Triangle(40, 50), bbox)
+               (exhibit_scaling(RightTriangle(40, 50), bbox)
                   -+ (80, 180)),
                (exhibit_scaling(Octagon(25, 50, 25, 50) -* 2.25, bbox)
                   -+ (80, 330)),
@@ -66,9 +66,9 @@ class Svg_Scaling_Test extends Svg_Test_Base {
   }
 
   protected def exhibit_scaling(shape: Shape, bounds: Dims): Shape = {
-    val boxed_shape = shape -~ shape_pen -& (bounds.as_shape -~ bbox_pen)
+    val boxed_shape = shape -~ shape_pen -& (bounds.asShape -~ bbox_pen)
 
-    val arrow_offset_x = boxed_shape.bounding_box.width + 30
+    val arrow_offset_x = boxed_shape.boundingBox.width + 30
     val box_and_arrow = boxed_shape -& 
                         (arrow -+ (arrow_offset_x, 0))
 
@@ -84,8 +84,8 @@ class Svg_Scaling_Test extends Svg_Test_Base {
     // align each shape horizontally, according to its own dimensions
     val scaling_offsets_x = scaled_shapes.map { scaled_shape =>
         val (shape, name) = scaled_shape
-        shape.bounding_box.width
-      }.foldLeft(List((0.0, arrow.bounding_box.width))) { (sums, shape_width) =>
+        shape.boundingBox.width
+      }.foldLeft(List((0.0, arrow.boundingBox.width))) { (sums, shape_width) =>
         val (prev_sum, prev_shape_width) = sums.head
         val layout_width = (shape_width + prev_shape_width) / 2 + 20
         (prev_sum + layout_width, shape_width) :: sums
@@ -111,7 +111,7 @@ class Svg_Scaling_Test extends Svg_Test_Base {
     val scaling_offset_y = {
       val max_y = (0.0 /: scaled_shapes) { (max_y, scaled_shape) =>
           val (shape, name) = scaled_shape
-          max_y max shape.bounding_box.height
+          max_y max shape.boundingBox.height
         }
       max_y / 2 + 10
     }
@@ -147,17 +147,17 @@ class Svg_Scaling_Test extends Svg_Test_Base {
     def add_bounding_box(prepared_shape: Shape): Shape = {
       val bbox_shape = how match {
         case Orig_Scale              => None
-        case Scale_To(w, h)          => Some(Origin_Dims(w, h))
-        case Scale_To_Asym(w, h)     => Some(Origin_Dims(w, h))
-        case Scale_To_Max(w, h)      => Some(Origin_Dims(w, h))
-        case Scale_To_Max_Asym(w, h) => Some(Origin_Dims(w, h))
-        case Scale_To_Min(w, h)      => Some(Origin_Dims(w, h))
-        case Scale_To_Min_Asym(w, h) => Some(Origin_Dims(w, h))
+        case Scale_To(w, h)          => Some(OriginDims(w, h))
+        case Scale_To_Asym(w, h)     => Some(OriginDims(w, h))
+        case Scale_To_Max(w, h)      => Some(OriginDims(w, h))
+        case Scale_To_Max_Asym(w, h) => Some(OriginDims(w, h))
+        case Scale_To_Min(w, h)      => Some(OriginDims(w, h))
+        case Scale_To_Min_Asym(w, h) => Some(OriginDims(w, h))
         case _: Collection_Scaling_Strategy=> None
       }
 
       bbox_shape match {
-        case Some(bbox) => prepared_shape -& (bbox.as_shape -~ bbox_pen)
+        case Some(bbox) => prepared_shape -& (bbox.asShape -~ bbox_pen)
         case None       => prepared_shape
       }
     }

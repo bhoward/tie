@@ -26,6 +26,7 @@ import scala.collection.JavaConversions._
 import k_k_.io.data.CharDoubleSeqFromDataFile
 import k_k_.fs.Resources
 
+import scala.language.implicitConversions
 
 //!!!!!!!in actuality, these sizes are applicable to any 'length' (see:
 // http://www.w3.org/TR/SVG/coords.html#UnitIdentifiers)!!!!!!!!!!

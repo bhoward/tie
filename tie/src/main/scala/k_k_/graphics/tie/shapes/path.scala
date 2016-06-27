@@ -20,6 +20,8 @@ package path {
 
 import k_k_.graphics.tie.transform.{Transformable, Placeable}
 
+import scala.language.implicitConversions
+import scala.language.reflectiveCalls
 
 sealed abstract class PathCmd extends Transformable[PathCmd] {
 

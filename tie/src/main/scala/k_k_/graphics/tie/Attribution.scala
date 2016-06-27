@@ -18,6 +18,7 @@ package k_k_.graphics.tie
 
 import java.net.URI
 
+import scala.language.implicitConversions
 
 object Attribution {
   implicit def fromString(id: String) = IdAttribution(id)

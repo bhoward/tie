@@ -18,6 +18,7 @@ package k_k_.graphics.tie
 
 package effects {
 
+  import scala.language.implicitConversions
 
 sealed abstract class Effect
 

@@ -20,7 +20,7 @@ import org.junit._
 import Assert._
 
 import k_k_.graphics.tie._
-import k_k_.graphics.tie.ink.{Named_Colors => C, _}
+import k_k_.graphics.tie.ink.{NamedColors => C, _}
 import k_k_.graphics.tie.shapes._
 import k_k_.graphics.tie.shapes.text._
 
@@ -40,14 +40,14 @@ class Svg_Alignment_Test extends Svg_Test_Base {
 
 
   protected def create_canvas() = {
-    new Canvas(Canvas_Props(1280, 500, Origin_Top_Left, title),
+    new Canvas(CanvasProps(1280, 500, OriginPos.TopLeft, title),
                (align_shape(Rectangle(80, 50),               Center, Inside)
                   -+ (60, 0)) -&
-               (align_shape(Right_Triangle(40, 50),     Left_Middle, Inside)
+               (align_shape(RightTriangle(40, 50),     Left_Middle, Inside)
                   -+ (200, 0)) -&
                (align_shape(Ellipse(35, 25),             Top_Middle, Inside)
                   -+ (340, 0)) -&
-               (align_shape(Iso_Triangle(35, 50),             R_Mid, Inside)
+               (align_shape(IsoTriangle(35, 50),             R_Mid, Inside)
                   -+ (480, 0)) -&
                (align_shape(Circle(35),                       B_Mid, Inside)
                   -+ (620, 0)) -&
@@ -65,11 +65,11 @@ class Svg_Alignment_Test extends Svg_Test_Base {
                   -+ (60, 0)) -&
                (align_shape(Parallelogram(50, 70, 50),      L_Mid, Centered)
                   -+ (200, 0)) -&
-               (align_shape(Iso_Triangle(35, 50),           T_Mid, Centered)
+               (align_shape(IsoTriangle(35, 50),           T_Mid, Centered)
                   -+ (340, 0)) -&
                (align_shape(Ellipse(35, 25),         Right_Middle, Centered)
                   -+ (480, 0)) -&
-               (align_shape(Right_Triangle(40, 50), Bottom_Middle, Centered)
+               (align_shape(RightTriangle(40, 50), Bottom_Middle, Centered)
                   -+ (620, 0)) -&
                (align_shape(Pentagon(50, 50, 35, 55),         B_L, Centered)
                   -+ (760, 0)) -&
@@ -83,7 +83,7 @@ class Svg_Alignment_Test extends Svg_Test_Base {
 
                (align_shape(Rectangle(80, 50),              Center, Outside)
                   -+ (60, 0)) -&
-               (align_shape(Equi_Triangle(60),               L_Mid, Outside)
+               (align_shape(EquiTriangle(60),               L_Mid, Outside)
                   -+ (200, 0)) -&
                (align_shape(Parallelogram(50, 70, 50),       T_Mid, Outside)
                   -+ (340, 0)) -&
@@ -93,7 +93,7 @@ class Svg_Alignment_Test extends Svg_Test_Base {
                   -+ (620, 0)) -&
                (align_shape(Hexagon(30, 50, 50) -% 90,         B_L, Outside)
                   -+ (760, 0)) -&
-               (align_shape(Right_Triangle(40, 50),       Top_Left, Outside)
+               (align_shape(RightTriangle(40, 50),       Top_Left, Outside)
                   -+ (900, 0)) -&
                (align_shape(Octagon(25, 50, 25, 50),     Top_Right, Outside)
                   -+ (1040, 0)) -&
@@ -110,7 +110,7 @@ class Svg_Alignment_Test extends Svg_Test_Base {
       shape -~ shape_pen -& center_X
 
     val name = fmt_name _ tupled calc_name(where, how)
-    val name_offset_y = bbox_shape.bounding_box.height / 2 + 30
+    val name_offset_y = bbox_shape.boundingBox.height / 2 + 30
 
     val scale_factor = (how, where) match {
       case (Inside, _)

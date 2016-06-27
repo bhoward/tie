@@ -18,19 +18,21 @@ package k_k_.graphics.tie.tile
 
 package adjust {
 
-import k_k_.graphics.tie.shapes.{Bounding_Boxed, Point, Shape, Simple_Shape,
-                                 Rectangular, Invis_Rectangle}
+import k_k_.graphics.tie.shapes.{BoundingBoxed, Point, Shape, SimpleShape,
+                                 Rectangular, InvisRectangle}
 
 import k_k_.graphics.tie.tile.pos.Shape_Pos
 import conversions._
+
+import scala.language.implicitConversions
 
 
 sealed abstract class Scaling_Strategy
 
 protected abstract class Scaling_Strategy_Construction[T <: Scaling_Strategy] {
 
-  def apply(bboxed: Bounding_Boxed): T = {
-    val Rectangular(width, height) = Bounding_Boxed(bboxed)
+  def apply(bboxed: BoundingBoxed): T = {
+    val Rectangular(width, height) = BoundingBoxed(bboxed)
     apply(width, height)
   }
 
@@ -268,8 +270,8 @@ class Renderable_Shape(self: Shape) {
 
   def under_bounding_box(bbox_pen: Option[Pen] = None): Shape =
     bbox_pen match {
-      case Some(pen) => self -& (self.bounding_box_shape -~ pen)
-      case None      => self -&  self.bounding_box_shape
+      case Some(pen) => self -& (self.boundingBoxShape -~ pen)
+      case None      => self -&  self.boundingBoxShape
     }
 
   def over_bounding_box(bbox_pen: Pen): Shape =
@@ -277,8 +279,8 @@ class Renderable_Shape(self: Shape) {
 
   def over_bounding_box(bbox_pen: Option[Pen] = None): Shape =
     bbox_pen match {
-      case Some(pen) => (self.bounding_box_shape -~ pen) -& self
-      case None      =>  self.bounding_box_shape         -& self
+      case Some(pen) => (self.boundingBoxShape -~ pen) -& self
+      case None      =>  self.boundingBoxShape         -& self
     }
 
   def with_bounding_box(bbox_pen: Pen): Shape =
@@ -360,10 +362,10 @@ Rotated_Simple_Shape
 
 object Adjustable_Shape {
 
-  def calc_scaling_factors(shape: Bounding_Boxed,
+  def calc_scaling_factors(shape: BoundingBoxed,
                            scaling_strategy: Scaling_Strategy):
       (Double, Double) = {
-    val Rectangular(shape_width, shape_height) = Bounding_Boxed(shape)
+    val Rectangular(shape_width, shape_height) = BoundingBoxed(shape)
     scaling_strategy match {
       case Orig_Scale =>
         (1.0, 1.0)
@@ -415,13 +417,13 @@ final class Adjustable_Shape(self: Shape) {
     self to (0, 0)
 
 
-  def to(other_bboxed: Bounding_Boxed, where_on_other: Bounding_Box_Pos,
+  def to(other_bboxed: BoundingBoxed, where_on_other: Bounding_Box_Pos,
          how: Alignment_Relation = Centered): Shape = {
 
-    val other_bbox = Bounding_Boxed(other_bboxed)
+    val other_bbox = BoundingBoxed(other_bboxed)
 
     def calc_offset: (Double, Double) = {
-      val bbox = self.bounding_box
+      val bbox = self.boundingBox
       (how, where_on_other) match {
         case (Inside,   where) => where(bbox)          - where(other_bbox)
         case (Outside,  where) => where.opposite(bbox) - where(other_bbox)
@@ -439,7 +441,7 @@ final class Adjustable_Shape(self: Shape) {
   def to(shape_pos: Shape_Pos): Shape =
     to(shape_pos.shape, shape_pos.pos)
 
-  def -@(other_bboxed: Bounding_Boxed, where_on_other: Bounding_Box_Pos,
+  def -@(other_bboxed: BoundingBoxed, where_on_other: Bounding_Box_Pos,
          how: Alignment_Relation = Centered): Shape =
     to(other_bboxed, where_on_other, how)
 
@@ -452,7 +454,7 @@ final class Adjustable_Shape(self: Shape) {
 
   def scale_to(scaling_strategy: Scaling_Strategy): Shape = {
     val (x_factor, y_factor) =
-        Adjustable_Shape.calc_scaling_factors(self.bounding_box,
+        Adjustable_Shape.calc_scaling_factors(self.boundingBox,
                                               scaling_strategy)
     self.scale(x_factor, y_factor)
   }
@@ -512,12 +514,12 @@ final class Adjustable_Shape(self: Shape) {
           case Bottom_Left   | B_L   => (width,     height)
           case Bottom_Right  | B_R   => (width,     height)
         }
-      val Rectangular(self_width, self_height) = self.bounding_box
+      val Rectangular(self_width, self_height) = self.boundingBox
       (self_width + width_increase, self_height + height_increase)
     }
 
     val (new_bbox_width, new_bbox_height) = calc_new_bbox_size
-    val invis_padding_rect = Invis_Rectangle(new_bbox_width, new_bbox_height).
+    val invis_padding_rect = InvisRectangle(new_bbox_width, new_bbox_height).
                                to(self, where.opposite, Inside)
     invis_padding_rect -& self
   }

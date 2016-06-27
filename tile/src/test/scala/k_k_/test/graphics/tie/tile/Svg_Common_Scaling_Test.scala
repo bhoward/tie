@@ -24,7 +24,7 @@ import java.io.File
 import scala.io.Source
 
 import k_k_.graphics.tie._
-import k_k_.graphics.tie.ink.{Named_Colors => C, _}
+import k_k_.graphics.tie.ink.{NamedColors => C, _}
 import k_k_.graphics.tie.shapes._
 import k_k_.graphics.tie.shapes.text._
 
@@ -103,7 +103,7 @@ class Svg_Common_Scaling_Test extends Svg_Test_Base {
 
     val horiz_div = Line(600).pad(0, 10)
 
-    new Canvas(Canvas_Props(1200, 600, title = title),
+    new Canvas(CanvasProps(1200, 600, title = title),
                Seq(naive_fitting,
                      horiz_div,
                    true_fitting,
@@ -181,29 +181,29 @@ class Svg_Common_Scaling_Test extends Svg_Test_Base {
     val font_family_name = "Arial"
   
     val name_font       = Font(font_family_name, 12)
-    val stereotype_font = Font(font_family_name, 12, Italic)
+    val stereotype_font = Font(font_family_name, 12, FontStyle.Italic)
 
     def stereotype(name: String) =
-      Text_Line("<<" + name + ">>",  stereotype_font, Middle_Align)
+      TextLine("<<" + name + ">>",  stereotype_font, TextAlign.Middle)
 
     val abstract_line  = stereotype("abstract")
     val interface_line = stereotype("interface")
   
     val caption = entity match {
       case Class_Entity(name, abstract_?) =>
-        val name_line = Text_Line(name, name_font, Middle_Align)
-        Text_Block(if (abstract_?) abstract_line :: name_line :: Nil
+        val name_line = TextLine(name, name_font, TextAlign.Middle)
+        TextBlock(if (abstract_?) abstract_line :: name_line :: Nil
                    else                             name_line :: Nil)
       case Instance_Entity(name, Class_Entity(class_name, _)) =>
-        Text_Line(name + " : " + class_name, name_font, Underline)
+        TextLine(name + " : " + class_name, name_font, TextDecoration.Underline)
       case Interface_Entity(name) =>
-        Text_Block(interface_line ::
-                   Text_Line(name, name_font, Middle_Align) :: Nil)
+        TextBlock(interface_line ::
+                   TextLine(name, name_font, TextAlign.Middle) :: Nil)
     }
 
     combine_shapes(
                    Rectangle(50, 35) -~ Pen(C.black, C.white),
-                   (caption -~ Default_Writing_Pen)
+                   (caption -~ DefaultWritingPen)
                   )
   }
 }

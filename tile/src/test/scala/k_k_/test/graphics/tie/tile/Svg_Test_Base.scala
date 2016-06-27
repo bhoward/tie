@@ -22,8 +22,8 @@ import Assert._
 import java.io.File
 
 import k_k_.graphics.tie._
-import k_k_.graphics.tie.fmt.svg.Svg_Renderer
-import k_k_.graphics.tie.ink.{Named_Colors => C, _}
+import k_k_.graphics.tie.fmt.svg.SvgRenderer
+import k_k_.graphics.tie.ink.{NamedColors => C, _}
 import k_k_.graphics.tie.shapes._
 import k_k_.graphics.tie.shapes.text._
 
@@ -37,9 +37,9 @@ abstract class Svg_Test_Base {
 
   val title: String
 
-  val desc_font = new Font("Arial", 12, weight = Bold)
+  val desc_font = new Font("Arial", 12, weight = FontWeight.Bold)
 
-  val renderer: Renderer = Svg_Renderer
+  val renderer: Renderer = SvgRenderer
 
   val center_pen = Pen.stroke(C.gray, 0.4)
   val center_X = (Line(10) -%  45) -&
@@ -65,7 +65,7 @@ abstract class Svg_Test_Base {
   protected def create_canvas(): Canvas
 
   protected def label_shape(shape: Shape, name: String, ink: Ink): Shape = {
-    val name_offset_y = shape.bounding_box.height / 2 + 10
+    val name_offset_y = shape.boundingBox.height / 2 + 10
     (shape -~ Pen.stroke(ink)) -&
     (write(name, ink) -+ (0, name_offset_y))
 
@@ -75,6 +75,6 @@ abstract class Svg_Test_Base {
     label_shape(shape, name, C.Black)
 
   protected def write(text: String, ink: Ink,
-                      align: Text_Align = Middle_Align) =
-    Text_Line(text, desc_font, align) -~ Pen.fill(ink)
+                      align: TextAlign = TextAlign.Middle) =
+    TextLine(text, desc_font, align) -~ Pen.fill(ink)
 }

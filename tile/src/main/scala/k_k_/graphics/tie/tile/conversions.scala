@@ -18,6 +18,9 @@ package k_k_.graphics.tie.tile
 
 import k_k_.graphics.tie.shapes.Shape
 
+import scala.language.higherKinds
+import scala.language.implicitConversions
+
 
 package object conversions {
 //!!!!!!!!!!Renderable_Shape will likely change packages!!!!!!!!

@@ -20,7 +20,7 @@ import org.junit._
 import Assert._
 
 import k_k_.graphics.tie._
-import k_k_.graphics.tie.ink.{Named_Colors => C, _}
+import k_k_.graphics.tie.ink.{NamedColors => C, _}
 import k_k_.graphics.tie.shapes._
 import k_k_.graphics.tie.shapes.text._
 /*
@@ -53,12 +53,12 @@ class Svg_Ellipse_Bounding_Box_Points_Test
 
   val title = "(Ellipse) Bounding Box Named Points"
 
-  val shape = Diam_Ellipse(320, 240)
+  val shape = DiamEllipse(320, 240)
 }
 
 abstract class Svg_Bounding_Box_Points_Test_Base extends Svg_Test_Base {
 
-  val shape: Simple_Shape
+  val shape: SimpleShape
 
   lazy val placed_shape = shape -~ Pen.stroke(C.black) -+ (200, 150)
 
@@ -66,11 +66,11 @@ abstract class Svg_Bounding_Box_Points_Test_Base extends Svg_Test_Base {
   // arg, but Shape_Traversal.collect can not... precipitates ugly type
   // and essentially precludes inline definition:
   val ignore_rectangular: PartialFunction[Shape, Shape] = {
-    case Rectangular(_, _) => Null_Shape
+    case Rectangular(_, _) => NullShape
   }
   lazy val bboxed_placed_shape = placed_shape -&
            (placed_shape.collect(ignore_rectangular).headOption.
-              getOrElse(placed_shape.bounding_box_shape -~ bbox_pen))
+              getOrElse(placed_shape.boundingBoxShape -~ bbox_pen))
 /*
   // code works, but requires foreknowledge of level of nesting... not optimal
   lazy val bboxed_placed_shape = placed_shape -& (placed_shape match {
@@ -93,7 +93,7 @@ abstract class Svg_Bounding_Box_Points_Test_Base extends Svg_Test_Base {
 
 
   protected def create_canvas() = {
-    new Canvas(Canvas_Props(500, 300, Origin_Top_Left, title),
+    new Canvas(CanvasProps(500, 300, OriginPos.TopLeft, title),
                (bboxed_placed_shape -&
                label_pt(_.center,        "center",        C.black,    0, -15) -&
                label_pt(_.top_middle,    "top middle",    C.red,      0, -15) -&

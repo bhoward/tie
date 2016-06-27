@@ -25,6 +25,7 @@ import k_k_.graphics.tie.effects.Effect.Opacity
 import k_k_.graphics.tie.shapes.{Point, Shape}
 import k_k_.graphics.tie.transform._
 
+import scala.language.implicitConversions
 
 sealed abstract class Ink {
 

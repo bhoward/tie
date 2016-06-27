@@ -19,7 +19,7 @@ package k_k_.test.graphics.tie.tile
 import org.junit._
 
 import k_k_.graphics.tie._
-import k_k_.graphics.tie.ink.{Named_Colors => C, _}
+import k_k_.graphics.tie.ink.{NamedColors => C, _}
 import k_k_.graphics.tie.shapes._
 import k_k_.graphics.tie.shapes.path._
 import k_k_.graphics.tie.shapes.text._
@@ -43,11 +43,11 @@ class Svg_Hello_World_Test extends Svg_Test_Base {
 
 
   protected def create_canvas() = {
-    val (orange, blue) = (C.Orange, C.Royal_Blue)
-    val lin_grad = Linear_Gradient.uniform(Seq(C.orange, C.royalblue))
-    val rad_grad = Radial_Gradient(Seq(Color_Stop(C.Orange,    15),
-                                       Color_Stop(C.RoyalBlue, 25)),
-                                   Repeat_Colors)
+    val (orange, blue) = (C.Orange, C.RoyalBlue)
+    val lin_grad = LinearGradient.uniform(Seq(C.orange, C.RoyalBlue))
+    val rad_grad = RadialGradient(Seq(ColorStop(C.Orange,    15),
+                                       ColorStop(C.RoyalBlue, 25)),
+                                   ColorSpread.Repeat)
 
     val stripe = Rectangle(18, 80)
     val earth_img = Image(earth_img_path, img_path_mapper)
@@ -60,41 +60,41 @@ class Svg_Hello_World_Test extends Svg_Test_Base {
     val h_ello  = (Center of H_vert_bar).combo(R_Mid of H_vert_horiz)
     val h_e_llo = Path.from(-14, 0).
                     horiz(29).
-                    arc(15, Large_CCW, -5, 12) -* 1.4 -~
-                      Pen.stroke(lin_grad -% 60, 10, Round_Ends)
+                    arc(15, ArcChoice.LargeCCW, -5, 12) -* 1.4 -~
+                      Pen.stroke(lin_grad -% 60, 10, StrokeEnds.Round)
     val he_l_lo = stripe -~ Pen.fill(lin_grad -% 90)
     val hel_l_o = stripe -~ Pen.fill(lin_grad)
-    val hell_o  = (Circle(25).as_path & (Diam_Circle(20) -+ (25, 0))) -~
+    val hell_o  = (Circle(25).asPath & (DiamCircle(20) -+ (25, 0))) -~
                      Pen.fill(Pattern(Square(4) -% 45 -+ 2 -~
                                         Pen.fill(orange)),
-                              Even_Odd_Fill)
+                              FillRule.EvenOdd)
 
     val W_body  = Trapezoid(50, 70, 80) -% 180 -~ Pen.fill(orange)
 
     val stalagmites = {
-          val stalagmite = Iso_Triangle(14, 50) -% 180
+          val stalagmite = IsoTriangle(14, 50) -% 180
           val stalagtite = Trapezoid(10, 20, 20)
           (stalagmite -+ (-12, 0)) -&
           (stalagmite -+ ( 12, 0)) -& (stalagtite -+ (0, -15))
     } -~ Pen.fill(blue)
-    val lower_cleft = Iso_Triangle(20, 40) -~ Pen.fill(blue)
+    val lower_cleft = IsoTriangle(20, 40) -~ Pen.fill(blue)
     val w_orld  = W_body -& (lower_cleft.to(B_Mid of W_body, Inside)
                          -&  stalagmites.to(T_Mid of W_body, Inside))
 
     val w_o_rld = earth_img -* .25 -<> Rectangle(55, 55)
     // NOTE: use Text_Line.breadth = 1/100 to compensate for 'descender hang'
-    val wo_r_ld = Text_Line("r", Font("Times New Roman", 120), .01) -~
+    val wo_r_ld = TextLine("r", Font("Times New Roman", 120), .01) -~
                     Pen.fill(blue)
     val wor_l_d = stripe -~ Pen.fill(rad_grad)
-    val worl_d  = Free_Form(Path.
+    val worl_d  = FreeForm(Path.
                               horiz(12).
                               vert(80).
                               horiz(-12).
-                              arc(24, 22, Large_CW, 0, -44).
+                              arc(24, 22, ArcChoice.LargeCW, 0, -44).
                               close
                               &
                             Path.from(3, 48).
-                              arc(12, Large_CCW, 0, 22).
+                              arc(12, ArcChoice.LargeCCW, 0, 22).
                               close) -~ Pen(blue, orange) pad(L_Mid, 25, 0)
 
     val kerning = 4
@@ -117,7 +117,7 @@ class Svg_Hello_World_Test extends Svg_Test_Base {
                       world.to(hello.pad(0, 30), Bottom_Middle, Outside)
     */
 
-    new Canvas(Canvas_Props(325, 325, title = title),
+    new Canvas(CanvasProps(325, 325, title = title),
                hello_world -@ (0, 0) -& (earth_img -* 1.5 -+ (0, -7) -# .20)
               )
   }
